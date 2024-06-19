@@ -6,6 +6,11 @@ const openAPI = require('../dist/index');
 
 const gen = async () => {
   await openAPI.generateService({
+    schemaPath: `${__dirname}/example-files/swagger-empty.json`,
+    serversPath: './servers/empty',
+  });
+
+  await openAPI.generateService({
     schemaPath: `${__dirname}/test-allof-api.json`,
     serversPath: './servers-allof',
   });
@@ -21,14 +26,9 @@ const gen = async () => {
   });
 
   await openAPI.generateService({
-    schemaPath: `${__dirname}/example-files/swagger-file-convert.json`,
-    serversPath: './file-servers',
-  });
-
-  await openAPI.generateService({
     requestLibPath: "import request  from '@/request';",
     schemaPath: `${__dirname}/example-files/swagger-custom-hook.json`,
-    serversPath: './servers',
+    serversPath: './servers/custom',
     hook: {
       // 自定义类名
       customClassName: (tagName) => {
@@ -59,6 +59,25 @@ const gen = async () => {
     schemaPath: `${__dirname}/example-files/swagger-get-method-params-convert-obj.json`,
     serversPath: './servers/support-null',
     nullable: true,
+  });
+
+  // 正常命名文件和请求函数
+  await openAPI.generateService({
+    schemaPath: `${__dirname}/example-files/swagger-get-method-params-convert-obj.json`,
+    serversPath: './servers/name/normal',
+    isCamelCase: false,
+  });
+
+  // 小驼峰命名文件和请求函数
+  await openAPI.generateService({
+    schemaPath: `${__dirname}/example-files/swagger-get-method-params-convert-obj.json`,
+    serversPath: './servers/name/camel-case',
+    isCamelCase: true,
+  });
+
+  await openAPI.generateService({
+    schemaPath: `${__dirname}/example-files/swagger-file-convert.json`,
+    serversPath: './file-servers',
   });
 
   // check 文件生成
@@ -109,5 +128,11 @@ const gen = async () => {
   //   serversPath: './servers',
   //   mockFolder: './mocks',
   // });
+
+  await openAPI.generateService({
+    schemaPath: `${__dirname}/example-files/apispec_1.json`,
+    serversPath: './apispe',
+    mockFolder: './mocks',
+  });
 };
 gen();

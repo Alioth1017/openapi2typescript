@@ -30,6 +30,7 @@ npm run openapi
 |  属性   | 必填  | 备注 | 类型 | 默认值 |
 |  ----  | ----  |  ----  |  ----  | - |
 | requestLibPath  | 否 | 自定义请求方法路径 | string | - |
+| requestOptionsType  | 否 | 自定义请求方法 options 参数类型 | string | {[key: string]: any} |
 | requestImportStatement  | 否 | 自定义请求方法表达式 | string | - |
 | apiPrefix  | 否 | api 的前缀 | string | - |
 | serversPath  | 否 | 生成的文件夹的路径 | string | - |
@@ -40,3 +41,16 @@ npm run openapi
 | enumStyle  | 否 | 枚举样式 | string-literal \| enum | string-literal |
 | nullable | 否 | 使用null代替可选 | boolean | false |
 | dataFields | 否 | response中数据字段 | string[] | - |
+| isCamelCase | 否 | 小驼峰命名文件和请求函数 | boolean | true |
+| hook | 否 | 自定义 hook | [Custom Hook](#Custom-Hook) | - |
+
+## Custom Hook
+
+| 属性           | 类型 | 说明               |
+| -------------- | ---- | ------------------ |
+| afterOpenApiDataInited | (openAPIData: OpenAPIObject) => OpenAPIObject  | - |
+| customFunctionName | (data: APIDataType) => string   | 自定义请求方法函数名称 |
+| customTypeName | (data: APIDataType) => string | 自定义类型名称 |
+| customClassName | (tagName: string) => string  | 自定义类名 |
+| customType | (<br>schemaObject: SchemaObject \| undefined,<br>namespace: string,<br>originGetType:(schemaObject: SchemaObject \| undefined, namespace: string) => string,<br>) => string  | 自定义获取类型 <br> *返回非字符串将使用默认方法获取type* |
+| customFileNames |  (<br>operationObject: OperationObject,<br>apiPath: string,<br>_apiMethod: string,<br>) => string[]   | 自定义生成文件名，可返回多个，表示生成多个文件. <br> *返回为空，则使用默认的获取方法获取* |
